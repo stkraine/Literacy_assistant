@@ -1,5 +1,7 @@
 import PySimpleGUI as sg
 
+
+
 theme = {'BACKGROUND': 'lightgray',
                 'TEXT': 'black',
                 'INPUT': 'white',
@@ -17,9 +19,9 @@ sg.theme("default_themes")
 
 
 def create_main_window():
-    layout = [  [sg.Column([[sg.Text('This is the passage for you to read!')], 
-            [sg.Multiline(default_text="Passage here",disabled=True, no_scrollbar=True)]]),sg.Column([[sg.Text('These are the words that you missed.')],
-            [sg.Multiline(disabled=True, no_scrollbar=True)]])],
+    layout = [  [sg.Column([[sg.Text('Test passage')], 
+            [sg.Multiline(default_text="The sky is blue",disabled=True, no_scrollbar=True)]]),sg.Column([[sg.Text('These are the words that you missed.')],
+            [sg.Multiline(disabled=True, no_scrollbar=True, key="__OUTPUT__")]])],
             [sg.Button("Start Recording", key='__RECORD__'), sg.Cancel(key="__MAIN_CANCEL__")]]
 
     return sg.Window("test_window", layout=layout, finalize=True)

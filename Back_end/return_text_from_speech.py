@@ -27,7 +27,7 @@ auth_key = '6e790915f96449ecbc21bafe22258ecf'
 # the AssemblyAI endpoint we're going to hit
 URL = "wss://api.assemblyai.com/v2/realtime/ws?sample_rate=16000"
 text_list = []
-async def send_receive():
+async def send_receive(win):
     # text_list = []
     print(f'Connecting websocket to url ${URL}')
     async with websockets.connect(
@@ -58,10 +58,17 @@ async def send_receive():
             
             return True
         
-        async def receive():
+        async def receive(win):
             text_list = []
             puncs = ('.', '?', '!')
+            end_recording = False
             while _ws.open: 
+
+                events, values = win.read(timeout = 1)
+                if events == "__RECORD__":
+                    end_recording = True
+
+
                 try:
                     result_str = await _ws.recv()
                     text_str = json.loads(result_str)['text']
@@ -72,9 +79,9 @@ async def send_receive():
                             if sentence[0] == ' ': # if sentence starts with a space
                                 sentence = sentence[1:]
                             text_list.append(sentence + '.')
-                        if len(text_list) > 4: #FIXME: change to detect when 'Stop Recording' is pressed  
-                            await _ws.close()
-                            return text_list
+                    if end_recording: #FIXME: change to detect when 'Stop Recording' is pressed  
+                        await _ws.close()
+                        return text_list
                     # print('text_list:', text_list)
                 except websockets.exceptions.ConnectionClosedError as e:
                     print(e)
@@ -83,14 +90,14 @@ async def send_receive():
                 except Exception as e:
                     print(e)
                     assert False, "Not a websocket 4008 error"
-        receive_res, text_list = await asyncio.gather(send(), receive())
+        receive_res, text_list = await asyncio.gather(send(), receive(win))
         return text_list
 
-def return_text():
+def return_text(win):
     '''
     Returns a list of sentences, as punctuated by AssemblyAI.
     '''
-    text_list = asyncio.run(send_receive())
+    text_list = asyncio.run(send_receive(win))
     return text_list
     
 

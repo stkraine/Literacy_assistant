@@ -1,5 +1,7 @@
 from Front_end.User_interface import *
 from config import *
+from Back_end.return_text_from_speech import *
+from Back_end.text_to_speech import *
 
 
 def main():
@@ -9,15 +11,28 @@ def main():
 
     open_windows = [window1]
 
+    test_string = ""
+
     while(True):
         window, event, values = sg.read_all_windows(timeout=1)
 
         # checks if the start recording button has been pressed
-        if "__RECORD__" == event:
+        if "__RECORD__" == event and not RECORDING:
             RECORDING = flip_botton_color(window, "__RECORD__", RECORDING)
-            disable_button(window, "__RECORD__")
-            disable_button(window, "__MAIN_CANCEL__")
-            temp_win = show_pop_up("Test")
+            output = return_text(window1)
+            for sentence in output:
+                test_string = test_string + sentence
+            
+            window1["__OUTPUT__"].update(test_string)
+            # disable_button(window, "__RECORD__")
+            # disable_button(window, "__MAIN_CANCEL__")
+        if "__RECORD__" == event and RECORDING:
+            RECORDING = flip_botton_color(window, "__RECORD__", RECORDING)
+            word = incorrect_words(window1["__OUTPUT__"].get())
+            word.audio_playback()
+            word.delete_temp_file()
+            
+            #temp_win = show_pop_up("Test")
 
         # checks if the window is to be closed, basically ends the program
         # closes all other open windows
@@ -35,8 +50,6 @@ def main():
                 enable_button(window1, "__RECORD__")
                 enable_button(window1, "__MAIN_CANCEL__")
             
-
-
 
 if __name__ == '__main__':
     main()

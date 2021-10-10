@@ -7,7 +7,7 @@ import os
 
 class incorrect_words():
 
-    def __init__(self, word: str, index=0, file='C:/tmp/temp_'):
+    def __init__(self, word: str, index=0, file='temp_'):
         self.text = word
         self.index = index
         self.filename = file
