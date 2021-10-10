@@ -21,6 +21,10 @@ def find_errors(truth, transcript):
             elif word == l2[i + offset + 2]:
                 offset += 2
                 continue
+
+            elif word == l2[i + offset + 3]:
+                offset += 3
+                continue
             
             else:
                 error_words.append(word)
