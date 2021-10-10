@@ -21,7 +21,7 @@ class incorrect_words():
         self._process_audio()
         playback = pyglet.media.load(self.filename, streaming=False)
         playback.play()
-    
+
     def delete_temp_file(self):
         os.remove(self.filename)
 
