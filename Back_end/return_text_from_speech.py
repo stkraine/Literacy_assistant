@@ -1,4 +1,5 @@
 import pyaudio
+import re
  
 FRAMES_PER_BUFFER = 3200
 FORMAT = pyaudio.paInt16
@@ -27,6 +28,7 @@ auth_key = '6e790915f96449ecbc21bafe22258ecf'
 URL = "wss://api.assemblyai.com/v2/realtime/ws?sample_rate=16000"
 text_list = []
 async def send_receive():
+    # text_list = []
     print(f'Connecting websocket to url ${URL}')
     async with websockets.connect(
         URL,
@@ -57,14 +59,20 @@ async def send_receive():
             return True
         
         async def receive():
-            while _ws.open: # while _ws.is_open()?
+            text_list = []
+            puncs = ('.', '?', '!')
+            while _ws.open: 
                 try:
                     result_str = await _ws.recv()
                     text_str = json.loads(result_str)['text']
                     print(text_str)  
-                    if text_str.endswith('.'):
-                        text_list.append(text_str)
-                        if len(text_list) > 6:
+                    if text_str.endswith(puncs):
+                        punc = text_str[-1]
+                        for sentence in re.split('\.|\?|!', text_str)[:-1]: # don't want last item of the list because its just a blank string after the final '.'
+                            if sentence[0] == ' ': # if sentence starts with a space
+                                sentence = sentence[1:]
+                            text_list.append(sentence + '.')
+                        if len(text_list) > 4: #FIXME: change to detect when 'Stop Recording' is pressed  
                             await _ws.close()
                             return text_list
                     # print('text_list:', text_list)
@@ -75,16 +83,14 @@ async def send_receive():
                 except Exception as e:
                     print(e)
                     assert False, "Not a websocket 4008 error"
-        text_list = []
         receive_res, text_list = await asyncio.gather(send(), receive())
         return text_list
-        # text_list = await asyncio.get_event_loop().run_until_complete(send(), receive())
-        # return send_result, receive_result
 
 def return_text():
     '''
-    Returns a list of sentences, as punctuated by AssemblyAI
+    Returns a list of sentences, as punctuated by AssemblyAI.
     '''
     text_list = asyncio.run(send_receive())
     return text_list
     
+
