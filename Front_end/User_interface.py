@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+from PySimpleGUI.PySimpleGUI import Button
 
 
 
@@ -42,7 +43,7 @@ def flip_botton_color(window, id, flip):
 
 # this function handles the pop-up for a word that was incorrectly updated.
 def show_pop_up(failed_word):
-    layout = [[sg.Text(failed_word)], [sg.Button("Play", key="__PLAY__")]]
+    layout = [[sg.Text(failed_word)], [sg.Button("Play", key="__PLAY__"), sg.Button("Record", key="__RECORD_POPUP__")]]
     window = sg.Window(failed_word, layout, keep_on_top=True, finalize=True, size=(200,100))
     return window
 
