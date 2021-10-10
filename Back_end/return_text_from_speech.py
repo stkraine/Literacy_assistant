@@ -94,5 +94,3 @@ def return_text():
     return text_list
     
 
-if __name__ == '__main__':
-    print(return_text())
