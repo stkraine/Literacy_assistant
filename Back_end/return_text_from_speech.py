@@ -63,30 +63,24 @@ async def send_receive(win):
             puncs = ('.', '?', '!')
             end_recording = False
             while _ws.open: 
-
                 events, values = win.read(timeout = 1)
                 if events == "__RECORD__":
                     end_recording = True
-
-
                 try:
                     result_str = await _ws.recv()
                     text_str = json.loads(result_str)['text']
                     print(text_str)  
                     if text_str.endswith(puncs):
-                        punc = text_str[-1]
                         for sentence in re.split('\.|\?|!', text_str)[:-1]: # don't want last item of the list because its just a blank string after the final '.'
                             if sentence[0] == ' ': # if sentence starts with a space
                                 sentence = sentence[1:]
                             text_list.append(sentence + '.')
-                    if end_recording: #FIXME: change to detect when 'Stop Recording' is pressed  
+                    if end_recording: 
                         await _ws.close()
                         return text_list
-                    # print('text_list:', text_list)
                 except websockets.exceptions.ConnectionClosedError as e:
                     print(e)
                     assert e.code == 4008
-                    # break
                 except Exception as e:
                     print(e)
                     assert False, "Not a websocket 4008 error"
@@ -100,4 +94,3 @@ def return_text(win):
     text_list = asyncio.run(send_receive(win))
     return text_list
     
-
