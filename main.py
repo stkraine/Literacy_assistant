@@ -3,6 +3,7 @@ from config import *
 from Back_end.return_text_from_speech import *
 from Back_end.text_to_speech import *
 from Back_end.find_errors import *
+import time
 
 
 def main():
@@ -27,7 +28,7 @@ def main():
             if "__RECORD__" == event and not RECORDING:
                 RECORDING = flip_botton_color(window, "__RECORD__", RECORDING)
                 output = return_text(window1)
-                
+                test_string = ""
                 for sentence in output:
                     test_string = test_string + sentence
 
@@ -74,7 +75,7 @@ def main():
 
                         if "__RECORD_POPUP__" == event and RECORDING:
                             
-                            word = incorrect_words("You are wrong you worthless child.")
+                            word = incorrect_words("I'm sorry, That is wrong, please try again!")
                             word.audio_playback()
                             word.delete_temp_file()
                             RECORDING = flip_botton_color(temp_win, "__RECORD_POPUP__", RECORDING)
@@ -90,6 +91,11 @@ def main():
 
                     temp_win.close()
                 window1["__OUTPUT__"].update("")
+                
+                time.sleep(.75)
+                word = incorrect_words("Great Job, here's the next phrase!")
+                word.audio_playback()
+                word.delete_temp_file()
                 break
 
 
