@@ -10,7 +10,7 @@ while(True):
     if "__RECORD__" == event:
         RECORDING = flip_botton_color("__RECORD__", RECORDING)
 
-    # checks if the window is to be closed
+    # checks if the window is to be closed, basically ends the program
     if event in (sg.WIN_CLOSED, 'Cancel'):
         break
         

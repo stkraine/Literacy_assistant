@@ -16,7 +16,7 @@ sg.theme_add_new('default_themes', theme)
 sg.theme("default_themes")
 
 layout = [  [sg.Column([[sg.Text('This is the passage for you to read!')], 
-            [sg.Multiline(default_text="Try to say this BITCHES!",disabled=True, no_scrollbar=True)]]),sg.Column([[sg.Text('This is what you said!')],
+            [sg.Multiline(default_text="Passage here",disabled=True, no_scrollbar=True)]]),sg.Column([[sg.Text('This is what you said!')],
             [sg.Multiline(disabled=True, no_scrollbar=True)]])],
             [sg.Button("Start Recording", key='__RECORD__'), sg.Cancel()]]
 
@@ -33,7 +33,7 @@ def flip_botton_color(id, flip):
     else:
         flip = False
         window[id].update(button_color=("white","darkblue"))
-        
+
     return flip
 
 
