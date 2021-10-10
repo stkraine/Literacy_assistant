@@ -15,18 +15,18 @@ theme = {'BACKGROUND': 'lightgray',
 sg.theme_add_new('default_themes', theme)
 sg.theme("default_themes")
 
-layout = [  [sg.Column([[sg.Text('This is the passage for you to read!')], 
+
+def create_main_window():
+    layout = [  [sg.Column([[sg.Text('This is the passage for you to read!')], 
             [sg.Multiline(default_text="Passage here",disabled=True, no_scrollbar=True)]]),sg.Column([[sg.Text('This is what you said!')],
             [sg.Multiline(disabled=True, no_scrollbar=True)]])],
-            [sg.Button("Start Recording", key='__RECORD__'), sg.Cancel()]]
+            [sg.Button("Start Recording", key='__RECORD__'), sg.Cancel(key="__MAIN_CANCEL__")]]
 
-
-
-window = sg.Window("test_window", layout=layout)
+    return sg.Window("test_window", layout=layout, finalize=True)
 
 
 # this function flips a buttons color, will be used to turn the recording button on, updates the flip variable
-def flip_botton_color(id, flip):
+def flip_botton_color(window, id, flip):
 
     if not flip:
         flip = True
@@ -41,7 +41,16 @@ def flip_botton_color(id, flip):
 # this function handles the pop-up for a word that was incorrectly updated.
 def show_pop_up(failed_word):
     layout = [[sg.Text(failed_word)], [sg.Button("Play", key="__PLAY__")]]
-    sg.Window(failed_word, layout)
+    window = sg.Window(failed_word, layout, keep_on_top=True, finalize=True, size=(200,100))
+    return window
+
+#this function disables a button by key and window
+def disable_button(window, key):
+    window[key].update(disabled = True)
+    
+#this function enables a button by key and window
+def enable_button(window, key):
+    window[key].update(disabled = False)
 
 
 
