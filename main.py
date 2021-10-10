@@ -12,7 +12,6 @@ def main():
     while(True):
         window, event, values = sg.read_all_windows(timeout=1)
 
-
         # checks if the start recording button has been pressed
         if "__RECORD__" == event:
             RECORDING = flip_botton_color(window, "__RECORD__", RECORDING)

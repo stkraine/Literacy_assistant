@@ -18,7 +18,7 @@ sg.theme("default_themes")
 
 def create_main_window():
     layout = [  [sg.Column([[sg.Text('This is the passage for you to read!')], 
-            [sg.Multiline(default_text="Passage here",disabled=True, no_scrollbar=True)]]),sg.Column([[sg.Text('This is what you said!')],
+            [sg.Multiline(default_text="Passage here",disabled=True, no_scrollbar=True)]]),sg.Column([[sg.Text('These are the words that you missed.')],
             [sg.Multiline(disabled=True, no_scrollbar=True)]])],
             [sg.Button("Start Recording", key='__RECORD__'), sg.Cancel(key="__MAIN_CANCEL__")]]
 
