@@ -1,3 +1,6 @@
+'''
+A significant portopn of this script was taken from https://people.csail.mit.edu/hubert/pyaudio/docs/
+'''
 # -*- coding: <utf-8> -*-
 import pyaudio
 import wave
