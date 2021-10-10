@@ -65,7 +65,7 @@ async def send_receive(win):
             while _ws.open: 
 
                 events, values = win.read(timeout = 1)
-                if events == "__RECORD__":
+                if events == "__RECORD__" or events == "__RECORD_POPUP__":
                     end_recording = True
 
 
