@@ -2,43 +2,39 @@ from gtts import gTTS
 from tempfile import TemporaryFile
 import os
 import pyglet
-
+import time
 import os
 
-my_text =  "Fight me, see what happens. Oh yeah? What’s gonna happen, Shoresy? Three things: I hit you, you hit the pavement, and I jerk off on your driver’s side door handle"
-language = 'en'
-accent = 'ca'
-riley = gTTS(text=my_text, lang=language, slow=False)
+class incorrect_words():
 
-filename = 'C:/tmp/temp.mp3'
+    def __init__(self, word: str, index=0, file='C:/tmp/temp_'):
+        self.text = word
+        self.index = index
+        self.filename = file
 
-riley.save(filename)
+    def _process_audio(self):
+        self.filename = self.filename + self.text + ".mp3"
+        self.gtts_obj = gTTS(self.text, lang='en', slow=False)
+        self.gtts_obj.save(self.filename)
 
-music = pyglet.media.load(filename, streaming=True)
-music.play()
+    def audio_playback(self):
+        self._process_audio()
+        playback = pyglet.media.load(self.filename, streaming=False)
+        playback.play()
+    
+    def delete_temp_file(self):
+        os.remove(self.filename)
 
-pyglet.app.run()
+def test():
+    new_list = []
+    temp_list = ["this", "is", "a", "test"]
 
-sleep(music.duration)
-os.remove(filename)
+    for word in temp_list:
+        new_list.append(incorrect_words(word))
 
-class TextToSpeech():
-
-    def __init__(self, transcript: list, lang='en'):
-        self.text = transcript
-        self.language = lang
-        self.filename = "C:/tmp/temp.mp3"
-        self.gTTS_obj = gTTS(self.text, lang=self.language, slow=False)
-
-    def audio_playback():
-        pass
-
-    def process_audio():
-        pass
-
+    for word in new_list:
+        word.audio_playback()
+        word.delete_temp_file()
+        time.sleep(1)
 
         
-
-
-
-
