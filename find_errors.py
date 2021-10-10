@@ -7,7 +7,7 @@ def find_errors(truth, transcript):
     l1 = truth.split()
     l2 = transcript.split()
 
-    error_words = []
+    error_words = [] 
     offset = 0
     for i, word in enumerate(l1):
         try:
