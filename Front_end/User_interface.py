@@ -20,6 +20,8 @@ layout = [  [sg.Column([[sg.Text('This is the passage for you to read!')],
             [sg.Multiline(disabled=True, no_scrollbar=True)]])],
             [sg.Button("Start Recording", key='__RECORD__'), sg.Cancel()]]
 
+
+
 window = sg.Window("test_window", layout=layout)
 
 
@@ -35,6 +37,11 @@ def flip_botton_color(id, flip):
         window[id].update(button_color=("white","darkblue"))
 
     return flip
+
+# this function handles the pop-up for a word that was incorrectly updated.
+def show_pop_up(failed_word):
+    layout = [[sg.Text(failed_word)], [sg.Button("Play", key="__PLAY__")]]
+    sg.Window(failed_word, layout)
 
 
 
